@@ -19,4 +19,13 @@ model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
   name  String?
+	tokens Token[]
+}
+
+model Token {
+	id    Int     @id @default(autoincrement())
+	token String
+	user_id Int
+	user User @relation(fields: [user_id], references: [id])
+	@@unique([token, user_id])
 }
