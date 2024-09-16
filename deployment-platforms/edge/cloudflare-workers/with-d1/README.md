@@ -1,6 +1,30 @@
 # Deploy a Cloudflare Worker with D1
 
+
+# Cloudflare d1 does not support interactive transactions.
+
+```shell
+[wrangler:err] Error: Cloudflare D1 does not support interactive transactions. We recommend you to refactor your queries with that limitation in mind, and use batch transactions with `prisma.$transactions([])` where applicable.
+    at o (file:///Volumes/ssl-orca/github/prisma-examples/deployment-platforms/edge/cloudflare-workers/with-d1/node_modules/@prisma/client/runtime/wasm.js:30:8383)
+    at Object.runInChildSpan (file:///Volumes/ssl-orca/github/prisma-examples/deployment-platforms/edge/cloudflare-workers/with-d1/node_modules/@prisma/client/runtime/wasm.js:21:1566)
+    at Proxy.$transaction (file:///Volumes/ssl-orca/github/prisma-examples/deployment-platforms/edge/cloudflare-workers/with-d1/node_modules/@prisma/client/runtime/wasm.js:30:8809)
+    at createUsingTx (file:///Volumes/ssl-orca/github/prisma-examples/deployment-platforms/edge/cloudflare-workers/with-d1/src/index.ts:22:36)
+    at Object.fetch (file:///Volumes/ssl-orca/github/prisma-examples/deployment-platforms/edge/cloudflare-workers/with-d1/src/index.ts:51:9)
+    at fetchDispatcher (file:///Volumes/ssl-orca/github/prisma-examples/deployment-platforms/edge/cloudflare-workers/with-d1/.wrangler/tmp/bundle-3oxD0V/middleware-loader.entry.ts:54:17)
+    at __facade_invokeChain__ (file:///Volumes/ssl-orca/github/prisma-examples/deployment-platforms/edge/cloudflare-workers/with-d1/node_modules/wrangler/templates/middleware/common.ts:53:9)
+    at Object.next (file:///Volumes/ssl-orca/github/prisma-examples/deployment-platforms/edge/cloudflare-workers/with-d1/node_modules/wrangler/templates/middleware/common.ts:50:11)
+    at jsonError (file:///Volumes/ssl-orca/github/prisma-examples/deployment-platforms/edge/cloudflare-workers/with-d1/node_modules/wrangler/templates/middleware/middleware-miniflare3-json-error.ts:22:30)
+    at __facade_invokeChain__ (file:///Volumes/ssl-orca/github/prisma-examples/deployment-platforms/edge/cloudflare-workers/with-d1/node_modules/wrangler/templates/middleware/common.ts:53:9)
+[wrangler:inf] GET / 500 Internal Server Error (108ms)
+```
+
 This example demonstrates how to deploy a [Cloudflare Worker](https://workers.cloudflare.com/) with a [D1 database](https://developers.cloudflare.com/d1/). It's based on Cloudflare's [`hello-world`](https://github.com/cloudflare/workers-sdk/tree/4fdd8987772d914cf50725e9fa8cb91a82a6870d/packages/create-cloudflare/templates/hello-world) template for Workers.
+
+## Requirements
+
+- node v20.9.0
+- npm 10.1.0
+- arch: x86_64
 
 
 ## Getting started
@@ -17,7 +41,7 @@ Navigate into the project directory and install npm dependencies:
 
 ```
 cd deployment-platforms/edge/cloudflare-workers/with-d1/
-npm install
+npm install --force
 ```
 
 ### 2. Create D1 database
